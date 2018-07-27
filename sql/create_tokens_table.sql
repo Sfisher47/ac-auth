@@ -10,5 +10,6 @@ CREATE TABLE tokens (
 	delmethod enum('all', 'own', 'none') NOT NULL DEFAULT 'none',
 	requests INT UNSIGNED,
 	PRIMARY KEY (id),
-	UNIQUE KEY ix_token (token)
+	UNIQUE KEY ix_token (token),
+	UNIQUE KEY ix_userid (userid)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 CHARSET=utf8;
