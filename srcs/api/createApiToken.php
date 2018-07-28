@@ -8,7 +8,7 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created:                                                 by elhmn        */
-/*   Updated: Sat Jul 28 13:12:50 2018                        by bmbarga      */
+/*   Updated: Sat Jul 28 18:27:19 2018                        by bmbarga      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ function		StoreToken($conn, $tableName, $token, $id)
 	return (true);
 }
 
+function		SendToken($token)
+{
+	echo '{"token":"'.$token.'"}';
+}
+
 function		CreateApiToken($db, $id)
 {
 	if (!$db)
@@ -94,8 +99,7 @@ function		CreateApiToken($db, $id)
 		http_error(400, 'Token generation failed');
 		return (false);
 	}
-	//send token as response
-	echo '{"token":"'.$token.'"}';
+	SendToken($token);
 	return (true);
 }
 

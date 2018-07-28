@@ -18,6 +18,7 @@ require_once('srcs/api/Uri.class.php');
 require_once('srcs/api/Database.class.php');
 require_once('srcs/api/Config.class.php');
 require_once('srcs/api/checkCredentials.php');
+require_once('srcs/api/removeApiToken.php');
 require_once('srcs/api/createApiToken.php');
 require_once('srcs/api/handlerequest.php');
 require_once('srcs/api/users/UserPostUtilities.class.php');

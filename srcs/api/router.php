@@ -8,7 +8,7 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created: Thu Jun 28 14:18:29 2018                        by elhmn        */
-/*   Updated: Sat Jul 28 13:17:50 2018                        by bmbarga      */
+/*   Updated: Sat Jul 28 18:47:10 2018                        by bmbarga      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,8 @@ function		Run()
 	else
 	{
 		//Create a new uri by saving relevant uri data
-		$uri = new Uri('/login', 'post');
+		$uri = new Uri('/logout', 'post');
 	}
-
-	print_r($uri); // Debug
 
 	//Check if the uri was properly formatted
 	if (!IsHandledUri($uri))
