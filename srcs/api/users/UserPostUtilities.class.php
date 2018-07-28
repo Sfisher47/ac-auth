@@ -8,7 +8,7 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created:                                                 by elhmn        */
-/*   Updated: Fri Jul 27 14:30:08 2018                        by bmbarga      */
+/*   Updated: Fri Jul 27 14:30:37 2018                        by bmbarga      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,70 +61,6 @@ class		UserPostUtilities
 
 		return ($data);
 	}
-
-
-	public static function		CanBePosted($data, $db, $tableName)
-	{
-		if (!$data)
-		{
-			internal_error("data set to null", __FILE__, __LINE__);
-			return(false);
-		}
-		if (!$db)
-		{
-			internal_error("db set to null", __FILE__, __LINE__);
-			return(false);
-		}
-
-		if (!($conn = $db->Connect()))
-		{
-			internal_error("conn set to null", __FILE__, __LINE__);
-			return (false);
-		}
-		//Check if login already exists
-		$queryLogin = "SELECT login FROM $tableName WHERE login=:login";
-		try
-		{
-			$stmtLogin = $conn->prepare($queryLogin);
-			$stmtLogin->bindParam(':login', $data->login);
-			$stmtLogin->execute();
-			$ret = $stmtLogin->fetchAll(PDO::FETCH_ASSOC);
-			if ($ret)
-			{
-				internal_error("login already exists", __FILE__, __LINE__);
-				return false;
-			}
-		}
-		catch(Exception $e)
-		{
-			internal_error("stmtLogin : " . $e->getMessage(),
-						__FILE__, __LINE__);
-			return (false);
-		}
-
-		//Check if email already exists
-		$queryEmail = "SELECT email FROM $tableName WHERE email=:email";
-		try
-		{
-			$stmtEmail = $conn->prepare($queryEmail);
-			$stmtEmail->bindParam(':email', $data->email);
-			$stmtEmail->execute();
-			$ret = $stmtEmail->fetchAll(PDO::FETCH_ASSOC);
-			if ($ret)
-			{
-				internal_error("email already exists", __FILE__, __LINE__);
-				return false;
-			}
-		}
-		catch(Exception $e)
-		{
-			internal_error("stmtEmail : " . $e->getMessage(),
-						__FILE__, __LINE__);
-			return (false);
-		}
-		return (true);
-	}
-
 };
 
 ?>

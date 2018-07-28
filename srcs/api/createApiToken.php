@@ -8,18 +8,17 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created:                                                 by elhmn        */
-/*   Updated: Fri Jul 27 16:15:18 2018                        by bmbarga      */
+/*   Updated: Sat Jul 28 13:12:50 2018                        by bmbarga      */
 /*                                                                            */
 /* ************************************************************************** */
 
 function		DoesTokenExist($conn, $tableName, $token)
 {
 	//Check if password already exists
-	$queryToken = "SELECT token FROM $tableName WHERE token=:token AND id=$id";
+	$queryToken = "SELECT token FROM $tableName WHERE token='$token'";
 	try
 	{
 		$stmtToken = $conn->prepare($queryToken);
-		$stmtToken->bindParam(':token', $token);
 		$stmtToken->execute();
 		$ret = $stmtToken->fetchAll(PDO::FETCH_ASSOC);
 		if (count($ret) === 1 && $ret[0]['token'] === $token)
@@ -27,6 +26,7 @@ function		DoesTokenExist($conn, $tableName, $token)
 	}
 	catch(Exception $e)
 	{
+		$stmtToken->debugDumpParams();
 		internal_error("stmtToken : " . $e->getMessage(),
 					__FILE__, __LINE__);
 		return (false);
@@ -38,20 +38,40 @@ function		GenerateToken()
 {
 	$bytes = openssl_random_pseudo_bytes(Config::$tokenLength, $cstrong);
 	$hex   = bin2hex($bytes);
-
-	echo "Lengths: Bytes: $tokenLength and Hex: " . strlen($hex) . PHP_EOL; // Debug
-	var_dump($hex); // Debug
-// 	var_dump($cstrong); // Debug
-// 	echo PHP_EOL; // Debug
 	return $hex;
 }
 
-function		StoreToken()
+function		StoreToken($conn, $tableName, $token, $id)
 {
-	echo __FUNCTION__ . PHP_EOL; // Debug
+	if (!$conn)
+	{
+		internal_error("conn set to null", __FILE__, __LINE__);
+		return (-1);
+	}
+	//Check if password already exists
+	$query = "INSERT INTO $tableName".
+		" SET
+			token = :token,
+			userid = :id,
+			expirationdate = CURRENT_TIMESTAMP + INTERVAL 5 DAY
+		";
+	try
+	{
+		$stmt = $conn->prepare($query);
+		$stmt->bindParam(':token', $token);
+		$stmt->bindParam(':id', $id);
+		$stmt->execute();
+	}
+	catch(Exception $e)
+	{
+		internal_error("stmt : " . $e->getMessage(),
+					__FILE__, __LINE__);
+		return (false);
+	}
+	return (true);
 }
 
-function		CreateApiToken($db)
+function		CreateApiToken($db, $id)
 {
 	if (!$db)
 	{
@@ -67,15 +87,16 @@ function		CreateApiToken($db)
 	$token = GenerateToken();
 	if (DoesTokenExist($conn, 'tokens', $token))
 	{
-		echo "Token exists already !" . PHP_EOL; // Debug
-		return ;
+		return (CreateApiToken($db, $id));
 	}
-	echo "Token does not exists already !" . PHP_EOL; // Debug
-	StoreToken();
-
-
-	//check if token exist
-	echo __FUNCTION__ . PHP_EOL; // Debug
+	if (!StoreToken($conn, Config::$tokenTable, $token, $id))
+	{
+		http_error(400, 'Token generation failed');
+		return (false);
+	}
+	//send token as response
+	echo '{"token":"'.$token.'"}';
+	return (true);
 }
 
 ?>

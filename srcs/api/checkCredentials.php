@@ -8,52 +8,38 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created:                                                 by elhmn        */
-/*   Updated: Fri Jul 27 15:02:49 2018                        by bmbarga      */
+/*   Updated: Sat Jul 28 10:07:00 2018                        by bmbarga      */
 /*                                                                            */
 /* ************************************************************************** */
 
-function		DoesPasswordMatch($conn, $data, $tableName, $id)
+function		GetUserId($conn, $tableName, $data)
 {
-	//Check if password already exists
-	$queryPassword = "SELECT password FROM $tableName WHERE password=:password AND id=$id";
-	try
+	if (!$conn)
 	{
-		$stmtPassword = $conn->prepare($queryPassword);
-		$stmtPassword->bindParam(':password', $data->password);
-		$stmtPassword->execute();
-		$ret = $stmtPassword->fetchAll(PDO::FETCH_ASSOC);
-		if (count($ret) === 1 && $ret[0]['password'] === $data->password)
-			return true;
+		internal_error("conn set to null", __FILE__, __LINE__);
+		return (-1);
 	}
-	catch(Exception $e)
-	{
-		internal_error("stmtPassword : " . $e->getMessage(),
-					__FILE__, __LINE__);
-		return (false);
-	}
-	return (false);
-}
-
-function		DoesMailExist($conn, $data, $tableName)
-{
 	//Check if email already exists
-	$queryEmail = "SELECT email FROM $tableName WHERE email=:email";
+	$query = "SELECT id FROM $tableName WHERE email=:email AND password=:password";
 	try
 	{
-		$stmtEmail = $conn->prepare($queryEmail);
-		$stmtEmail->bindParam(':email', $data->email);
-		$stmtEmail->execute();
-		$ret = $stmtEmail->fetchAll(PDO::FETCH_ASSOC);
-		if (count($ret) === 1 && $ret[0]['email'] === $data->email)
-			return true;
+		$stmt = $conn->prepare($query);
+		$stmt->bindParam(':email', $data->email);
+		$stmt->bindParam(':password', $data->password);
+		$stmt->execute();
+		$ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		if (count($ret) === 1)
+		{
+			return ($ret[0]['id']);
+		}
 	}
 	catch(Exception $e)
 	{
-		internal_error("stmtEmail : " . $e->getMessage(),
+		internal_error("stmt : " . $e->getMessage(),
 					__FILE__, __LINE__);
-		return (false);
+		return (-1);
 	}
-	return (false);
+	return (-1);
 }
 
 function		IsGoodCredentials($db, $tableName)
@@ -71,7 +57,7 @@ function		IsGoodCredentials($db, $tableName)
 	else
 	{
 		$data = json_decode('{
-								"email" : "elhmn@email.com",
+								"email" : "bmbarga@email.com",
 								"password" : "password"
 							}');
 	}
@@ -79,23 +65,22 @@ function		IsGoodCredentials($db, $tableName)
 	if (!$data)
 	{
 		internal_error("data set to null", __FILE__, __LINE__);
-		return(false);
+		return(-1);
 	}
 	$data = UserPostUtilities::SanitizeData($data);
 
 	if (!($conn = $db->Connect()))
 	{
 		internal_error("conn set to null", __FILE__, __LINE__);
-		return (false);
+		return (-1);
 	}
 
-	if (!($id = DoesMailExist($conn, $data, $tableName))
-		|| !DoesPasswordMatch($conn, $data, $tableName, $id))
+	if (($id = GetUserId($conn, $tableName, $data)) < 0)
 	{
 		http_error(400, 'Wrong credentials');
-		return false;
+		return (-1);
 	}
-	return true;
+	return ($id);
 }
 
 ?>

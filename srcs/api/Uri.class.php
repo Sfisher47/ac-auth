@@ -8,7 +8,7 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created:                                                 by elhmn        */
-/*   Updated: Fri Jul 27 10:08:25 2018                        by bmbarga      */
+/*   Updated: Sat Jul 28 13:19:18 2018                        by bmbarga      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 		public static		$verbose = false;
 
 		public	$method;
-		public	$url;
+		public	$endPoint;
 
 		//constructor
 		public function		__construct($uri, $method)
@@ -57,7 +57,7 @@
 			$data_arr = explode('/', $uri);
 			$data_arr = array_filter($data_arr);
 			$data_arr = array_values($data_arr);
-			$this->url = $data_arr;
+			$this->endPoint = (count($data_arr) === 1) ? $data_arr[0] : '';
 		}
 
 		public function		__toString()

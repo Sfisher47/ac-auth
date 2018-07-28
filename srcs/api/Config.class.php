@@ -8,7 +8,7 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created:                                                 by elhmn        */
-/*   Updated: Fri Jul 27 15:15:55 2018                        by bmbarga      */
+/*   Updated: Sat Jul 28 13:15:10 2018                        by bmbarga      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,16 @@
 		public static		$verbose = false;
 
 		public static		$table = "Users";
+		public static		$tokenTable = "tokens";
 		public static 		$tokenLength = 20;
 
 		public static		$methods = [
 			'post',
+		];
+
+		public static		$endPoints = [
+			'login',
+			'logout',
 		];
 
 		public static		$error_log_file = "./logs/error.log";

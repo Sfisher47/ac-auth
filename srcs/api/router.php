@@ -8,7 +8,7 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created: Thu Jun 28 14:18:29 2018                        by elhmn        */
-/*   Updated: Fri Jul 27 10:17:38 2018                        by bmbarga      */
+/*   Updated: Sat Jul 28 13:17:50 2018                        by bmbarga      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ function		IsHandledUri($uri)
 		return (false);
 	}
 
-	if (!empty($uri->url))
+	if (empty($uri->endPoint)
+		|| array_search($uri->endPoint,
+				Config::$endPoints) === FALSE)
 	{
 		internal_error("Bad request",
 						__FILE__, __LINE__);
@@ -64,8 +66,10 @@ function		Run()
 	else
 	{
 		//Create a new uri by saving relevant uri data
-		$uri = new Uri('/', 'post');
+		$uri = new Uri('/login', 'post');
 	}
+
+	print_r($uri); // Debug
 
 	//Check if the uri was properly formatted
 	if (!IsHandledUri($uri))
