@@ -5,7 +5,7 @@ CREATE TABLE tokens (
 	expirationdate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	creationdate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	postmethod enum('all', 'own', 'none') NOT NULL DEFAULT 'none',
-	patchmethod enum('all', 'own', 'none') NOT NULL DEFAULT 'none',
+	patchmethod enum('all', 'own', 'none') NOT NULL DEFAULT 'own',
 	getmethod enum('all', 'own', 'none') NOT NULL DEFAULT 'own',
 	delmethod enum('all', 'own', 'none') NOT NULL DEFAULT 'none',
 	requests INT UNSIGNED,
