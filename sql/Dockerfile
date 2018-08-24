@@ -1,4 +1,16 @@
-FROM mysql/mysql-server:latest
+# ************************************************************************** #
+#                                                                            #
+#   Dockerfile                                                               #
+#                                                                            #
+#   By: elhmn <www.elhmn.com>                                                #
+#             <nleme@live.fr>                                                #
+#                                                                            #
+#   Created: Sun Aug 26 16:16:29 2018                        by elhmn        #
+#   Updated: Sun Aug 26 16:16:31 2018                        by bmbarga      #
+#                                                                            #
+# ************************************************************************** #
+
+FROM mysql/mysql-server:5.7
 WORKDIR /var/www/html
 COPY create_tokens_table.sql .
 COPY install.sh .

@@ -8,7 +8,7 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created:                                                 by elhmn        */
-/*   Updated: Sat Jul 28 18:36:29 2018                        by bmbarga      */
+/*   Updated: Sun Aug 26 11:46:05 2018                        by bmbarga      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ function	HandleRequest($uri, $db)
 		internal_error("tokenDB set to null", __FILE__, __LINE__);
 		return (false);
 	}
+	$tokenDB->host = "ac.cirah.com:4000";
 	$tokenDB->db_name = "ac_authentication";
 
 	if (!$uri)
