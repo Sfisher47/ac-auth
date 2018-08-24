@@ -27,7 +27,7 @@ function		DoesTokenExist($conn, $tableName, $token)
 	catch(Exception $e)
 	{
 		$stmtToken->debugDumpParams();
-		internal_error("stmtToken : " . $e->getMessage(),
+		internal_error("stmtToken : " . {$e->getMessage()},
 					__FILE__, __LINE__);
 		return (false);
 	}
