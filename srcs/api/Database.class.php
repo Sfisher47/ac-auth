@@ -16,7 +16,7 @@
 	{
 		public static		$verbose = false;
 
-		public	$host = 'ac.cirah.com:3000';
+		public	$host = 'apidb';
 		public	$username = 'root';
 
 		//the password must be hidden later on

@@ -8,7 +8,7 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created:                                                 by elhmn        */
-/*   Updated: Sat Jul 28 18:27:19 2018                        by bmbarga      */
+/*   Updated: Sun Aug 26 14:48:09 2018                        by bmbarga      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ function		DoesTokenExist($conn, $tableName, $token)
 	catch(Exception $e)
 	{
 		$stmtToken->debugDumpParams();
-		internal_error("stmtToken : " . {$e->getMessage()},
+		internal_error("stmtToken : " . $e->getMessage(),
 					__FILE__, __LINE__);
 		return (false);
 	}

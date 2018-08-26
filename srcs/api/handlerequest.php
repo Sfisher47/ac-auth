@@ -19,7 +19,7 @@ function	HandleRequest($uri, $db)
 		internal_error("tokenDB set to null", __FILE__, __LINE__);
 		return (false);
 	}
-	$tokenDB->host = "ac.cirah.com:4000";
+	$tokenDB->host = "authdb";
 	$tokenDB->db_name = "ac_authentication";
 
 	if (!$uri)
