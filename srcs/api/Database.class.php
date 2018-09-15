@@ -8,7 +8,7 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created: Thu Jan 01 01:00:00 1970                        by elhmn        */
-/*   Updated: Sun Sep 16 00:13:21 2018                        by elhmn        */
+/*   Updated: Sun Sep 16 00:56:06 2018                        by elhmn        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@
 				{
 					internal_error("this->conn set to null", __FILE__, __LINE__);
 
-					http_error(400,
-						"Connection : failed : db = [{$this->dbName}]"
-						." : host - [{$this->host}]"); // Debug
+					http_error(400, "DB Connection : failed ");
 					return (null);
 				}
 				$this->conn->setAttribute(PDO::ATTR_ERRMODE,
@@ -71,9 +69,7 @@
 			catch (PDOException $e)
 			{
 				internal_error("Connection : {$e->getMessage()}", __FILE__, __LINE__);
-				http_error(400,
-					"Connection : failed : db = [{$this->dbName}]"
-					." : host - [{$this->host}]"); // Debug
+				http_error(400, "DB Connection : failed ");
 				return (null);
 			}
 			return ($this->conn);
