@@ -57,7 +57,7 @@ function		IsGoodCredentials($db, $tableName)
 	else
 	{
 		$data = json_decode('{
-								"email" : "bmbarga@email.com",
+								"email" : "elhmn@email.com",
 								"password" : "password"
 							}');
 	}

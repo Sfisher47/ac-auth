@@ -1,0 +1,12 @@
+{
+	"authHost" : "localhost",
+	"apiHost" : "localhost",
+	"dbUserName" : "root",
+ 	"dbPassword" : "Hundezucht_",
+	"apiDBName" : "actions_citoyennes",
+	"authDBName" : "ac_authentication",
+	"userTable" : "Users",
+	"testApiKey" : "test",
+	"tokenTable" : "tokens",
+	"tokenLength" : "20"
+}

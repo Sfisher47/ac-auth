@@ -36,7 +36,7 @@ function		DoesTokenExist($conn, $tableName, $token)
 
 function		GenerateToken()
 {
-	$bytes = openssl_random_pseudo_bytes(Config::$tokenLength, $cstrong);
+	$bytes = openssl_random_pseudo_bytes(Config::GetInstance()->tokenLength, $cstrong);
 	$hex   = bin2hex($bytes);
 	return $hex;
 }
@@ -94,7 +94,7 @@ function		CreateApiToken($db, $id)
 	{
 		return (CreateApiToken($db, $id));
 	}
-	if (!StoreToken($conn, Config::$tokenTable, $token, $id))
+	if (!StoreToken($conn, Config::GetInstance()->tokenTable, $token, $id))
 	{
 		http_error(400, 'Token generation failed');
 		return (false);

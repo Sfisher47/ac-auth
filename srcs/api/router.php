@@ -27,7 +27,7 @@ function		IsHandledUri($uri)
 
 	if (empty($uri->endPoint)
 		|| array_search($uri->endPoint,
-				Config::$endPoints) === FALSE)
+				Config::GetInstance()->endPoints) === FALSE)
 	{
 		internal_error("Bad request",
 						__FILE__, __LINE__);
@@ -37,7 +37,7 @@ function		IsHandledUri($uri)
 
 	if (empty($uri->method)
 		|| array_search($uri->method,
-				Config::$methods) === FALSE)
+				Config::GetInstance()->methods) === FALSE)
 	{
 		internal_error("Unhandled method : $uri->method",
 						__FILE__, __LINE__);
@@ -66,7 +66,7 @@ function		Run()
 	else
 	{
 		//Create a new uri by saving relevant uri data
-		$uri = new Uri('/logout', 'post');
+		$uri = new Uri('/login', 'post');
 	}
 
 	//Check if the uri was properly formatted

@@ -8,7 +8,7 @@
 /*             <nleme@live.fr>                                                */
 /*                                                                            */
 /*   Created: Thu Jan 01 01:00:00 1970                        by elhmn        */
-/*   Updated: Sun Aug 26 11:18:50 2018                        by bmbarga      */
+/*   Updated: Sun Sep 16 00:13:21 2018                        by elhmn        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,24 @@
 	{
 		public static		$verbose = false;
 
-		public	$host = 'ac.cirah.com:3000';
-		public	$username = 'root';
-
-		//the password must be hidden later on
-		//or loaded from a file
-		public	$password = 'test';
-		public	$db_name = 'actions_citoyennes';
+		public	$host = null;
+		public	$dbName = null;
 		private	$conn = null;
 
+		public function		Init()
+		{
+			$this->host = Config::GetInstance()->apiHost;
+			$this->dbName = Config::GetInstance()->apiDBName;
+		}
+
 		//constructors
-		public function		__constructor()
+		public function		__construct()
 		{
 			if (self::$verbose)
 			{
 				echo __CLASS__. " constructor called !" . PHP_EOL;
 			}
+			$this->Init();
 		}
 
 		//destructor
@@ -46,13 +48,21 @@
 		//connect to the database
 		public function		Connect()
 		{
-			$dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->db_name;
+
+			$dsn = 'mysql:host=' . $this->host
+				. ';dbname=' . $this->dbName;
 			try
 			{
-				$this->conn = new PDO($dsn, $this->username, $this->password);
+				$this->conn = new PDO($dsn,
+								Config::GetInstance()->dbUserName,
+								Config::GetInstance()->dbPassword);
 				if (!$this->conn)
 				{
 					internal_error("this->conn set to null", __FILE__, __LINE__);
+
+					http_error(400,
+						"Connection : failed : db = [{$this->dbName}]"
+						." : host - [{$this->host}]"); // Debug
 					return (null);
 				}
 				$this->conn->setAttribute(PDO::ATTR_ERRMODE,
@@ -61,6 +71,9 @@
 			catch (PDOException $e)
 			{
 				internal_error("Connection : {$e->getMessage()}", __FILE__, __LINE__);
+				http_error(400,
+					"Connection : failed : db = [{$this->dbName}]"
+					." : host - [{$this->host}]"); // Debug
 				return (null);
 			}
 			return ($this->conn);
