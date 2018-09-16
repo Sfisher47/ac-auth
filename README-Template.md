@@ -1,12 +1,10 @@
-# Ac-auth
+# Project Title
 
-Ac-auth is actions-citoyennes's authentication server. It receives login and logout requests and return a unique api token, which can be used for further ac-api requests.
+One Paragraph of project description goes here
 
 ## Getting Started
 
-Ac-auth server is built for linux or unix based operating systems. Windows support will come later.
-
-In order to generate a token ac-auth requires the api database to check users credentials, thus we must install ac-api server as well. Follow [this instructions](http://https://github.com/elhmn/ac-api) to install ac-api.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
@@ -70,7 +68,7 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
 
@@ -87,3 +85,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Hat tip to anyone whose code was used
 * Inspiration
 * etc
+
