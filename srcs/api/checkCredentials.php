@@ -20,25 +20,35 @@ function		GetUserId($conn, $tableName, $data)
 		return (-1);
 	}
 	//Check if email already exists
-	$query = "SELECT id FROM $tableName WHERE email=:email AND password=:password";
+	$query = "SELECT id, email, password FROM $tableName WHERE email=:email";
 	try
 	{
 		$stmt = $conn->prepare($query);
 		$stmt->bindParam(':email', $data->email);
-		$stmt->bindParam(':password', $data->password);
+	}
+	catch(Exception $e)
+	{
+		internal_error("stmt->bindParam : " . $e->getMessage(),
+					__FILE__, __LINE__);
+		return (-1);
+	}
+	
+	try
+	{
 		$stmt->execute();
 		$ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		if (count($ret) === 1)
+		if (count($ret) === 1 && password_verify($data->password, $ret[0]['password']))
 		{
 			return ($ret[0]['id']);
 		}
 	}
 	catch(Exception $e)
 	{
-		internal_error("stmt : " . $e->getMessage(),
+		internal_error("stmt->execute : " . $e->getMessage(),
 					__FILE__, __LINE__);
 		return (-1);
 	}
+	
 	return (-1);
 }
 
